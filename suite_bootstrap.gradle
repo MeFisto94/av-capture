@@ -1,0 +1,79 @@
+import org.apache.tools.ant.filters.*
+
+task downloadSuite << {
+    def suite_folder = "suite" // Is not completely implemented yet.
+    File folder = file(suite_folder + "/nbproject");
+    if (!folder.exists()) {
+        println "Downloading the plugins suite...";
+        exec {
+            commandLine 'git', 'clone', '--depth', '1', suite_repo_url, suite_folder
+        }
+    } else {
+        println "Updating the plugins suite...";
+        exec {
+            workingDir suite_folder
+            commandLine 'git', 'pull'
+        }
+    }
+}
+
+task setupSuite(type: GradleBuild, dependsOn: downloadSuite) {
+    println "Setting up the plugins suite....."
+
+    buildFile = 'suite/build.gradle'
+    tasks = ['setupSuite']
+}
+
+task applySuitePath(dependsOn: setupSuite) << {
+    println "Applying new suite path"
+    File f = file("nbproject/suite.properties")
+    if (f.exists())
+        f.delete();
+
+    f.createNewFile();
+    f.write('suite.dir=${basedir}/suite\r\n');
+}
+
+task suite(dependsOn: applySuitePath) << {
+
+}
+
+task CreateVersionFile(dependsOn: suite) << {
+    // Since it's a bit problematic to call version.gradle from a different directory and project (it won't pick the right repo, it won't export the vars), we copy and patch it a bit
+
+copy {
+    from 'suite/engine'
+    into '.'
+    include 'version.gradle'
+    filter { line ->
+        line = line.replace("def grgit = Grgit.open(project.file('.'))", "def grgit = Grgit.open(project.file('suite/engine/'))")
+        line = line.replace("import java.text.SimpleDateFormat", "ext.jmeVersion = \"3.1.0\"\n" +
+        "ext.jmeMainVersion = \"3.1\"\n" +
+        "ext.jmeVersionTag = \"SNAPSHOT\"\n" +
+        "ext.jmeVersionTagID = \"0\"\n" +
+        "import java.text.SimpleDateFormat")
+    } // Properties and git repo
+
+    def f = file("task.tmp")
+    f.text = "task writeVersion(dependsOn: configureVersionInfo) << {\n" + // since I can't find a way to access those version files..
+        "\tdef f1 = file(\"version.txt\")\n"+
+        "\tf1.text = jmePomVersion\n"+
+        "}\n"
+
+    filter(ConcatFilter, append: f)
+    }
+
+    delete(file("task.tmp"))
+}
+
+task getEngineVersion(type: GradleBuild, dependsOn: CreateVersionFile) {
+    buildFile = "version.gradle"
+    tasks = ['writeVersion'] // Our injected task.
+
+    doLast {
+        def f = file("version.txt")
+        jmePomVersion = f.text
+        delete(f)
+        delete("version.gradle")
+    }
+}

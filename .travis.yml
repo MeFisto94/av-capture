@@ -1,0 +1,29 @@
+language: java
+sudo: false
+jdk: oraclejdk8
+
+before_cache:
+# - rm -f $HOME/.gradle/caches/modules-2/modules-2.lock
+cache:
+  directories:
+   - $HOME/.gradle/caches/
+   - $HOME/.gradle/wrapper/
+   - suite
+   
+install:
+  - ./gradlew assemble
+
+deploy:
+  provider: releases
+  api_key:
+      secure: crfKJeu+AlnuRsit0HmBuibDta7pnhJSmC7yhKhVtLfH3dRwoJ/TQds3YAbenw9TRPynk3Q81DRAvG+zwhEDpWaSma1pbcCOIiQwiuamtKvUW25nXBAusLa+6blsf9heN61tdJFCCe8eBUbQMG4nC/y9VIRme/Vqz4Gqf2JZFwOxYYSThdoYNBuWqGvkpOIGObXFUOfdWTQvyJcR5KWfEFwAjworpmtj9nvflHG8o0bk/NDz7S+5FZSA33in52pJAi3f+oSrIUzODFF7pEyxo4yO2JrnKI45ewsI37wSCy95p8PEZqXr4fFVACrHF17zXwpKDUrISWnN7K2HFk5Z1c+bkWITfXNZU1yUwEikJ8G1E9LBUZbPU/+WGoU0zICyIgTxLjMAseCaGc0po1AerXnxM+CZfUa0GMZMsI3JD3GMYxEAAiAR8BkVPdbFemNudcVwU8txNRYTZY3HU4FUdXfZjeQZVDKn6NahRvtFan6Wt1V1YxpDyVz4+vTjv9VvFJSUPNeTWuOGOiJ69NGzIS3MhbtSQGHttMWaTTcxD5G9N7lbWnDn85K7GsQTs0Rw+GR1oPwQ5sCDEiLVmoavttdPET5yPFsXslpSHYA+OmL0++bHUQPVVypW13tlkXF/SRDr2dljAsNKRmTgmRvGnp/OxkuMiP3GU76WnpE8JR8=
+      # Use travis setup releases --force (gem install travis) and then anyone with push access can create the token
+  # file_glob: true
+  file:
+   - release/libs/jME3-ai.jar
+   - release/libs/jME3-ai-javadoc.zip
+   - release/libs/jME3-ai-sources.zip
+   - release/com-jme3-ai.nbm
+  skip_cleanup: true
+  on:
+    repo: MeFisto94/jme3-artificial-intelligence

@@ -1,0 +1,22 @@
+apply plugin: 'java';
+ext.jmePomVersion = "";
+apply from: "suite_bootstrap.gradle"
+
+task assemble(dependsOn: [suite, getEngineVersion], overwrite: true) << {
+    println "Setting myself as the module to be compiled..."
+
+    ant.propertyfile(file: "suite/nbproject/project.properties") {
+        entry(key: "project.com.aurellem", value: "../") // Set the current directory as directory for module
+        entry(key: "modules", value: '${project.com.aurellem}') // This is what you have to change: the package of your module
+    }
+
+    println "Manually fixing/adding Library Entries (jMonkey Version):"
+    ant.propertyfile(file: "suite/nbproject/jme-project-libs.properties") {
+        entry(key: "jme3-version-string", value: jmePomVersion)
+    }
+
+   println "Building Netbeans Modules"
+    exec {
+        commandLine 'ant', 'nbm'
+    }
+}
