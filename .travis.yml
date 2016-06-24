@@ -16,14 +16,11 @@ install:
 deploy:
   provider: releases
   api_key:
-      secure: crfKJeu+AlnuRsit0HmBuibDta7pnhJSmC7yhKhVtLfH3dRwoJ/TQds3YAbenw9TRPynk3Q81DRAvG+zwhEDpWaSma1pbcCOIiQwiuamtKvUW25nXBAusLa+6blsf9heN61tdJFCCe8eBUbQMG4nC/y9VIRme/Vqz4Gqf2JZFwOxYYSThdoYNBuWqGvkpOIGObXFUOfdWTQvyJcR5KWfEFwAjworpmtj9nvflHG8o0bk/NDz7S+5FZSA33in52pJAi3f+oSrIUzODFF7pEyxo4yO2JrnKI45ewsI37wSCy95p8PEZqXr4fFVACrHF17zXwpKDUrISWnN7K2HFk5Z1c+bkWITfXNZU1yUwEikJ8G1E9LBUZbPU/+WGoU0zICyIgTxLjMAseCaGc0po1AerXnxM+CZfUa0GMZMsI3JD3GMYxEAAiAR8BkVPdbFemNudcVwU8txNRYTZY3HU4FUdXfZjeQZVDKn6NahRvtFan6Wt1V1YxpDyVz4+vTjv9VvFJSUPNeTWuOGOiJ69NGzIS3MhbtSQGHttMWaTTcxD5G9N7lbWnDn85K7GsQTs0Rw+GR1oPwQ5sCDEiLVmoavttdPET5yPFsXslpSHYA+OmL0++bHUQPVVypW13tlkXF/SRDr2dljAsNKRmTgmRvGnp/OxkuMiP3GU76WnpE8JR8=
+      secure: MRLQ730WZQLsJ1icWtUjWgL6vyAUHTVYrrDI4JzSGA1Kr+imXiw17Ehw38p1IxYx31Ye24fAmWoutKAPtyECMQGZpAIeFBw4pp+6KA89ScAV9Oh+VTybSP6F/Z5Jpj1gKzeO0dwq173FaEMws7KVjCXYqjQzBfoyImCX5397Yn52uhUjL7ELqO6utT4/2W+8FJLZtigeg7O4bSses2ZeSN2wGfBuSKabF6jJIXgDGNX3YjJAOugOsNElxSlF8EDoQBEbxePhSC1uYX56lYdUvOPwA8+CuiRkJtt+pEjNstVxSEs4C+dmkv7GIphdmycTZG/B4He0OTX2xg1itnKp7BkGPeXbhyyjxHvyzrcYj/Jjjy4xv8vU0DwU8rTLkB7HeUdwt3e+bejxbkRfZftzCHnPtWk6ozXok+fTMs1CRt/HekUKwhZ2CX+N1Gz/h0gDrydhZba/9TJ+pZB+w5pq0xHD53M98WjDAXV+w+Dv9gkoPEPU87Uefm5X9h/fWiocoNL+smLhaMN7CXtGT+YbqZRrQzU0cgJUw1ebJKxBPJtNqBcB7Lsl2bzaUBtHq5orWvgn1cTl37JEl5/o1Q9qXAcoSHSpUgltI50CwMXfS7uOuL3hGuHeJz10Oltm2OnE+W1XwT04K3ANZTcmmyzNnQOzrcRMgpfgK1c6+1/XyyY=
       # Use travis setup releases --force (gem install travis) and then anyone with push access can create the token
   # file_glob: true
   file:
-   - release/libs/jME3-ai.jar
-   - release/libs/jME3-ai-javadoc.zip
-   - release/libs/jME3-ai-sources.zip
-   - release/com-jme3-ai.nbm
+   - build/com-aurellem.nbm
   skip_cleanup: true
   on:
-    repo: MeFisto94/jme3-artificial-intelligence
+    repo: MeFisto94/av-capture
